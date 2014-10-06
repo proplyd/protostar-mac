@@ -1,0 +1,35 @@
+---
+# roles/config-files/task/main.yml
+- name: copy config files
+  template:
+    src: "{{ item }}"
+    dest: ~/{{ item }}
+    backup: yes
+  with_items:
+    - .aliases
+    - .bash_profile
+    - .bash_prompt
+    - .bashrc
+    - .curlrc
+    - .exports
+    - .functions
+
+- name: copy git files
+  template:
+    src: "{{ item }}"
+    dest: ~/{{ item }}
+    backup: yes
+  with_items:
+    - .gitattributes
+    - .gitconfig
+    - .gitignore
+    - .gvimrc
+
+- name: add extra config file
+  template:
+    src: .extra.j2
+    dest: ~/.extra
+    backup: yes
+
+- name: reload config files
+  shell: source ~/.bash_profile
